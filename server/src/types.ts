@@ -12,7 +12,7 @@ export type Gait = {
   startLong: string;
   endLat: string;
   endLong: string;
-  users: Array<String>;
+  users: Array<string>;
 };
 
 // a session
