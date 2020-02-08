@@ -1,11 +1,11 @@
 {
-  "name": "server",
+  "name": "Server",
   "version": "1.0.0",
   "description": "Safety at your side.",
-  "main": "server.js",
+  "main": "Server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server.js"
+    "dev": "nodemon Server.js"
   },
   "repository": {
     "type": "git",
