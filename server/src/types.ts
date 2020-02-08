@@ -1,10 +1,9 @@
-
-// a generic user 
+// a generic user
 export type User = {
   username: string;
   email: string;
   password: string;
-}
+};
 
 // a gait
 export type Gait = {
@@ -13,11 +12,12 @@ export type Gait = {
   startLong: string;
   endLat: string;
   endLong: string;
-}
+  users: Array<String>;
+};
 
 // a session
 export type Session = {
   token: string;
   expiration: Date;
   user: string;
-}
+};
