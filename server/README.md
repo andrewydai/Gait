@@ -1,9 +1,7 @@
 # README for server
 
-commands assume yarn.
-
-`lint`: `yarn lint`
-`dev`: `yarn dev`
+`lint`: `npm run lint`
+`dev`: `npm run dev`
 
 `dev` builds to `./build`
 
