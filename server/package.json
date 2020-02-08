@@ -5,8 +5,9 @@
   "main": "Server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "yarn lint && tsc && nodemon ./build/server.js",
-    "lint": "yarn eslint . --ext .js,.jsx,.ts,.tsx"
+    "dev": "npm run eslint && npm run build && nodemon ./build/server.js",
+    "lint": "./node_modules/.bin/eslint . --ext .js,.jsx,.ts,.tsx",
+    "build": "./node_modules/typescript/bin/tsc"
   },
   "repository": {
     "type": "git",
