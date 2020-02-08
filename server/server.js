@@ -1,11 +1,23 @@
+const requests = require("./requests.js");
 const express = require("express");
+
 const app = express();
-const port = process.env.PORT || 5000;
+app.use(express.json());
+
+const port = 5000;
 
 // console.log that your server is up and running
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
-// create a GET route
-app.get("/express_backend", (req, res) => {
-  res.send({ express: "YOUR EXPRESS BACKEND IS CONNECTED TO REACT" });
-});
+// POST requests
+
+// post for signing up a new user
+app.post("/user/signup", requests.userSignup);
+// -post for logging in a user
+app.post("/user/login", requests.userLogin);
+// -post for creating your gait and adding it (start a gait)
+app.post("/user/createGait", requests.userCreateGait);
+
+
+// -get for grabbing closest 5 gaits based on your location and destination as well as theirs (join a gait)
+
