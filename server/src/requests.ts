@@ -1,6 +1,7 @@
 import { randomBytes } from "crypto";
 import { User, Gait, Session } from "./types";
 import { Request, Response } from "express";
+import { start } from "repl";
 
 // a fake database
 const database = {
@@ -57,7 +58,7 @@ export const userSignup = (req: Request, res: Response): Response => {
 // the create gait query
 export const userCreateGait = (req: Request, res: Response): Response => {
   const { startLat, startLong, endLat, endLong, token } = req.body;
-  
+
   if (startLat && startLong && endLat && endLong && token) {
     if (database.sessions.has(token)) {
       if (!token.isExpired) {
@@ -123,7 +124,11 @@ export const joinAGait = (req: Request, res: Response): Response => {
       const joiner = database.sessions.get(token)!;
       // if is a valid session, join the gait.
       gaitToJoin.users.push(joiner.user);
-      return res.status(200).send(`successfully joined ${gaitToJoin.owner}'s gait as user ${joiner.user}`);
+      return res
+        .status(200)
+        .send(
+          `successfully joined ${gaitToJoin.owner}'s gait as user ${joiner.user}`
+        );
     } else {
       // otherwise, tell them invalid token.
       return res.status(400).send(`invalid token`);
@@ -131,5 +136,45 @@ export const joinAGait = (req: Request, res: Response): Response => {
   } else {
     // this gait doesn't exist
     return res.status(400).send(`gait to join doesn't exist`);
+  }
+};
+
+// gives a user information about existing gaits
+// only gives information about the 5 best matching ones
+// matches based on closest current location and end location distance
+export const findAGait = (req: Request, res: Response): Response => {
+  const startLat = req.body.startLat;
+  const startLong = req.body.startLong;
+  const endLat = req.body.endLat;
+  const endLong = req.body.endLong;
+
+  if (database.gaits.size !== 0) {
+    const gaits: Array<Gait> = Array.from(database.gaits.values());
+    const gaitsWithKeys: Array<[number, Gait]> = gaits.map((gait: Gait): [
+      number,
+      Gait
+    ] => {
+      // absolute distance between the start of this and that, plus the end of this and that
+      const dist =
+        Math.abs(Number(gait.startLat) - startLat) +
+        Math.abs(Number(gait.startLong) - startLong) +
+        Math.abs(Number(gait.endLat) - endLat) +
+        Math.abs(Number(gait.endLong) - endLong);
+      return [dist, gait];
+    });
+    // sorted smaller at the front of the array
+    const sortedGaitsWithKeys = gaitsWithKeys.sort(
+      (gait1: [number, Gait], gait2: [number, Gait]) => gait1[0] - gait2[0]
+    );
+    // only takes elements that exist
+    const fiveClosest = sortedGaitsWithKeys.slice(0, 5);
+    // takes the gaits out of the pairs
+    const fiveClosestGaits = [];
+    for (let pair of fiveClosest) {
+      fiveClosestGaits.push(pair.pop());
+    }
+    return res.status(400).send(fiveClosestGaits);
+  } else {
+    return res.status(400).send("No Gaits currently happening :(");
   }
 };

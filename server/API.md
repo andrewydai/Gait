@@ -76,3 +76,22 @@ Note: users should only ever have one gait
 token: string
 owner: string
 }
+
+### /user/findAGait
+
+Allows a user to find an existing Gait.
+The body includes the current and end location represented in latitude
+of the user finding a Gait.
+
+#### Required Headers
+
+'Content-Type': 'application/json'
+
+#### Body
+
+{
+startLat: string
+startLong: string
+endLat: string
+endLong: string
+}
