@@ -57,14 +57,14 @@ export const userSignup = (req: Request, res: Response): Response => {
 // the create gait query
 export const userCreateGait = (req: Request, res: Response): Response => {
   const { startLat, startLong, endLat, endLong, token } = req.body;
-
+  
   if (startLat && startLong && endLat && endLong && token) {
     if (database.sessions.has(token)) {
       if (!token.isExpired) {
         // create the gait!
         // ! denotes we know it's defined, as .has passed.
         const session = database.sessions.get(token)!;
-        database.gaits.set(session.token, {
+        database.gaits.set(session.user, {
           owner: session.user,
           startLat,
           startLong,
@@ -108,5 +108,28 @@ export const userLogin = (req: Request, res: Response): Response => {
     }
   } else {
     return res.status(400).send(`username not valid`);
+  }
+};
+
+// adds a user to an existing gait
+export const joinAGait = (req: Request, res: Response): Response => {
+  const token = req.body.token;
+  const ownerOfGaitToJoin = req.body.owner;
+
+  if (database.gaits.has(ownerOfGaitToJoin)) {
+    const gaitToJoin = database.gaits.get(ownerOfGaitToJoin)!;
+
+    if (database.sessions.has(token)) {
+      const joiner = database.sessions.get(token)!;
+      // if is a valid session, join the gait.
+      gaitToJoin.users.push(joiner.user);
+      return res.status(200).send(`successfully joined ${gaitToJoin.owner}'s gait as user ${joiner.user}`);
+    } else {
+      // otherwise, tell them invalid token.
+      return res.status(400).send(`invalid token`);
+    }
+  } else {
+    // this gait doesn't exist
+    return res.status(400).send(`gait to join doesn't exist`);
   }
 };
