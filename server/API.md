@@ -63,6 +63,8 @@ token: string
 ### /user/joinAGait
 
 Allows a user to join an existing Gait.
+Owner is the username of the gait to join.
+Note: users should only ever have one gait
 
 #### Required Headers
 
@@ -71,6 +73,6 @@ Allows a user to join an existing Gait.
 #### Body
 
 {
-username: string,
 token: string
+owner: string
 }
