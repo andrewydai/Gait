@@ -1,0 +1,44 @@
+.streetNightImage {
+  background-image: url("./streetNight.jpg");
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  margin: 0px !important;
+  padding: 250px !important;
+  height: 100% !important;
+  width: 100% !important;
+  max-width: 2560px !important;
+}
+
+.welcomePageCard {
+  width: 400px !important;
+  height: 450px !important;
+  justify-content: center !important;
+  align-content: center !important;
+}
+
+.welcomeTitle {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 40px;
+}
+
+.welcomePageSignUp {
+  background-color: #75d18e !important;
+  width: 150px !important;
+  margin: 10px !important;
+}
+
+.welcomePageLogIn {
+  background-color: #e092bf !important;
+  width: 150px !important;
+  margin: 10px !important;
+}
+
+.marginLabel {
+  margin: 10px !important;
+  font-size: 20px !important;
+}
+
+.textFieldMargin {
+  margin: 5px !important;
+}
